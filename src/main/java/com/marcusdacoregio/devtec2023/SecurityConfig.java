@@ -22,7 +22,10 @@ public class SecurityConfig {
 						.anyRequest().authenticated()
 				)
 				.httpBasic(Customizer.withDefaults())
-				.formLogin(Customizer.withDefaults())
+				.formLogin(form -> form
+						.loginPage("/login")
+						.permitAll()
+				)
 				.logout(Customizer.withDefaults());
 		return http.build();
 	}
