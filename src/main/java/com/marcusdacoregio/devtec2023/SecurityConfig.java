@@ -32,11 +32,11 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	@Bean
-	UserDetailsService userDetailsService() {
-		UserDetails marcus = User.withDefaultPasswordEncoder().username("marcus").password("password").roles("USER").build();
-		UserDetails john = User.withDefaultPasswordEncoder().username("john").password("password").roles("USER").build();
-		return new InMemoryUserDetailsManager(marcus, john);
-	}
+//	@Bean
+//	UserDetailsService userDetailsService() {
+//		UserDetails marcus = User.withDefaultPasswordEncoder().username("marcus").password("password").roles("USER").build();
+//		UserDetails john = User.withDefaultPasswordEncoder().username("john").password("password").roles("USER").build();
+//		return new InMemoryUserDetailsManager(marcus, john);
+//	}
 
 }
