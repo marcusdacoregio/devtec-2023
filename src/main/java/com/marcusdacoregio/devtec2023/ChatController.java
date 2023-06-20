@@ -3,7 +3,7 @@ package com.marcusdacoregio.devtec2023;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +22,8 @@ class ChatController {
 	));
 
 	@GetMapping("/chat/{username}/messages")
+	@PreAuthorize("#username == authentication.name")
 	List<Message> getMessages(@PathVariable String username, Authentication authentication) {
-		if (!username.equals(authentication.getName())) {
-			throw new AccessDeniedException("Acesso negado, você não pode ver as mensagens de outro usuário");
-		}
 		return this.messages.stream().filter(message -> message.to().equals(username))
 				.toList();
 	}
