@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,6 +29,14 @@ class ChatController {
 		return this.messages.stream().filter(message -> message.to().equals(username))
 				.toList();
 	}
+
+	@PostMapping("/chat/{username}/messages")
+	@PreAuthorize("#to != authentication.name")
+	void sendMessage(@PathVariable("username") String to, @RequestBody SendMessageRequest request, Authentication authentication) {
+		this.messages.add(new Message(request.message(), to, authentication.getName()));
+	}
+
+	record SendMessageRequest(String message) {}
 
 	record Message(String message, String to, String from) {}
 
